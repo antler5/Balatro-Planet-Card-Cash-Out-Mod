@@ -1,0 +1,9 @@
+{
+    "name": "PlanetCardCashOutMod",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/antler5/balatro-planet-card-cash-out-mod",
+    "description": "\"Use\" a planet card while the cash-out animations play.",
+    "dependencies": [
+        "Thunderstore-lovely-0.4.0"
+    ]
+}

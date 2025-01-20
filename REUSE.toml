@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2024 antlers <antlers@illucid.net>
+# SPDX-License-Identifier: CC-BY-SA-4.0
+
+version = 1
+
+[[annotations]]
+path = "COPYING-DOCS"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+SPDX-FileCopyrightText = "Copyright (c) 2013 Creative Commons"
+
+[[annotations]]
+path = "manifest.json"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+SPDX-FileCopyrightText = "Copyright (c) 2024 antlers <antlers@illucid.net>"
+
+[[annotations]]
+path = "demo.gif"
+SPDX-License-Identifier = "LicenseRef-Proprietary"
+SPDX-FileCopyrightText = [
+  "Game Copyright (c) 2024 LocalThunk and Playstack Games"
+  "Game font by Daniel Linssen"
+  "Overlay font is DM Mono"
+]

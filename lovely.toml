@@ -1,0 +1,116 @@
+# SPDX-FileCopyrightText: 2024 antlers <antlers@illucid.net>
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "function Card:can_use_consumeable(any_state, skip_check)"
+position = "after"
+payload = '''
+local PLANET_CARD_CASH_OUT_MOD_COND = G.STATE == G.STATES.ROUND_EVAL and G.GAME.STOP_USE and G.GAME.STOP_USE > 0 and self.ability.set == 'Planet'
+if PLANET_CARD_CASH_OUT_MOD_COND then return true end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "G.FUNCS.use_card = function(e, mute, nosave)"
+position = "after"
+payload = "local PLANET_CARD_CASH_OUT_MOD_COND = G.STATE == G.STATES.ROUND_EVAL and G.GAME.STOP_USE and G.GAME.STOP_USE > 0 and e.config.ref_table.ability.set == 'Planet'"
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "if G.round_eval and not G.round_eval.alignment.offset.py then"
+position = "at"
+payload = "if G.round_eval and not G.round_eval.alignment.offset.py and not PLANET_CARD_CASH_OUT_MOD_COND then"
+match_indent = true
+times = 1
+
+# This one's for the base game.
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''
+if G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.PLANET_PACK or G.STATE == G.STATES.SPECTRAL_PACK then
+  card.T.x = G.hand.T.x + G.hand.T.w/2 - card.T.w/2
+  card.T.y = G.hand.T.y + G.hand.T.h/2 - card.T.h/2 - 0.5
+  discover_card(card.config.center)
+else draw_card(G.hand, G.play, 1, 'up', true, card, nil, mute) end
+delay(0.2)
+'''
+position = "at"
+payload = '''
+if PLANET_CARD_CASH_OUT_MOD_COND then
+  G.hand:remove_card(card)
+  local eval = function() return not card.REMOVED end
+  juice_card_until(card, eval, true)
+else
+  if G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.PLANET_PACK or G.STATE == G.STATES.SPECTRAL_PACK then
+    card.T.x = G.hand.T.x + G.hand.T.w/2 - card.T.w/2
+    card.T.y = G.hand.T.y + G.hand.T.h/2 - card.T.h/2 - 0.5
+    discover_card(card.config.center)
+  else draw_card(G.hand, G.play, 1, 'up', true, card, nil, mute) end
+  delay(0.2)
+end
+'''
+match_indent = true
+times = 1
+
+# This one's for SteamModded.
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''
+if (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.PLANET_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) then
+  card.T.x = G.hand.T.x + G.hand.T.w/2 - card.T.w/2
+  card.T.y = G.hand.T.y + G.hand.T.h/2 - card.T.h/2 - 0.5
+  discover_card(card.config.center)
+elseif not nc then draw_card(G.hand, G.play, 1, 'up', true, card, nil, mute) end
+delay(0.2)
+'''
+position = "at"
+payload = '''
+if PLANET_CARD_CASH_OUT_MOD_COND then
+  G.hand:remove_card(card)
+  local eval = function() return not card.REMOVED end
+  juice_card_until(card, eval, true)
+else
+  if (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.PLANET_PACK or G.STATE == G.STATES.SPECTRAL_PACK or G.STATE == G.STATES.SMODS_BOOSTER_OPENED) then
+    card.T.x = G.hand.T.x + G.hand.T.w/2 - card.T.w/2
+    card.T.y = G.hand.T.y + G.hand.T.h/2 - card.T.h/2 - 0.5
+    discover_card(card.config.center)
+  elseif not nc then draw_card(G.hand, G.play, 1, 'up', true, card, nil, mute) end
+  delay(0.2)
+end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''
+if G.round_eval then
+  G.round_eval.alignment.offset.y = G.round_eval.alignment.offset.py
+  G.round_eval.alignment.offset.py = nil
+end
+'''
+position = "at"
+payload = '''
+if G.round_eval and not PLANET_CARD_CASH_OUT_MOD_COND then
+  G.round_eval.alignment.offset.y = G.round_eval.alignment.offset.py
+  G.round_eval.alignment.offset.py = nil
+end
+'''
+match_indent = true
+times = 1
