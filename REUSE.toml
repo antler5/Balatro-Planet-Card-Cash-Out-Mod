@@ -17,7 +17,7 @@ SPDX-FileCopyrightText = "Copyright (c) 2024 antlers <antlers@illucid.net>"
 path = "demo.gif"
 SPDX-License-Identifier = "LicenseRef-Proprietary"
 SPDX-FileCopyrightText = [
-  "Game Copyright (c) 2024 LocalThunk and Playstack Games"
-  "Game font by Daniel Linssen"
+  "Game Copyright (c) 2024 LocalThunk and Playstack Games",
+  "Game font by Daniel Linssen",
   "Overlay font is DM Mono"
 ]

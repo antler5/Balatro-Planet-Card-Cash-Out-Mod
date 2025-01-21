@@ -5,12 +5,12 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 
 # Planet Card Cash-Out Mod
 
-"Use" a planet card while the cash-out animations play.
+_"Use" a planet card while the cash-out animations play._
 
 - Makes the "Use" button clickable, allowing players to queue one planet card.
 - Gives that planet card the regular pulsing animation used for Jokers like DNA
   and Trading Card.
-- Prevents the plant card from taking center-stage from the cash-out report,
+- Prevents the planet card from taking center-stage from the cash-out report,
   instead dissolving *in* the consumables corner. The hand-text on the left
   goes off as usual.
 - Removes a 0.2s delay (hardly noticeable on higher speeds anyway).
